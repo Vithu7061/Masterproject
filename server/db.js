@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-
+/*
 const pool = new Pool({
     user: 'postgres',
     host: 'db.woswkhvlmzehmfmfzduv.supabase.co',
@@ -7,8 +7,7 @@ const pool = new Pool({
     password: 'sociebite',
     port: 5432,
 });
-
-/*
+*/
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -16,7 +15,7 @@ const pool = new Pool({
     password: 'Veam1618!?',
     port: 5432,
 });
-*/
+
 // Test database connection
 pool.query('SELECT NOW()', (err, res) => {
     if (err) {
