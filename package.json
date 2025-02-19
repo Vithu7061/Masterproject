@@ -4,6 +4,7 @@
 	"main": "server/server.js",
 	"scripts": {
 	  "start": "node server/server.js",
+	  "build": "npx concurrently \"npx nodemon server/server.js\" \"npx http-server . -p 8081\" \"npx open-cli https://masterproject-76m3.vercel.app/landing.html\"",
 	  "dev": "npx concurrently \"npx nodemon server/server.js\" \"npx http-server . -p 8081\" \"npx open-cli https://masterproject-76m3.vercel.app/landing.html\""
 	},
 	"dependencies": {
