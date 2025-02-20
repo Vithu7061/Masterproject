@@ -5,7 +5,7 @@
 	"scripts": {
 	  "start": "node server/server.js",
 	  "dev": "npx concurrently \"npx nodemon server.js\" \"npx http-server . -p 8081\" \"npx open-cli http://localhost:8081/landing.html\""	,
-	  "build": "npx concurrently \"npx nodemon server.js\" \"npx http-server . -p 8081\" \"npx open-cli http://localhost:8081/landing.html\""	},
+	  "build": "npx concurrently \"npx nodemon server.js\" \"npx http-server . -p 8081\" \"npx open-cli https://sociebite-git-main-vithu7061s-projects.vercel.app/landing.html\""	},
 	"dependencies": {
 	  "cors": "^2.8.5",
 	  "express": "^4.21.2",
