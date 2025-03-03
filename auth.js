@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     city: document.getElementById('city').value,
                     iban: document.getElementById('iban').value,
                     bic: document.getElementById('bic').value,
-                    accountHolder: document.getElementById('accountHolder').value
+                    accountHolder: document.getElementById('accountHolder').value,
                 };
             }
             
@@ -106,8 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error(errorData.error || 'Registration failed');
                 }
 
+
+                
+
+                localStorage.setItem('SubMail', email);
+
                 // Wenn die Registrierung erfolgreich war
                 if (accountType === 'company') {
+                    console.log('erfolgreich');
                     window.location.href = 'subscription.html';
                 } else {
                     window.location.href = 'index.html';

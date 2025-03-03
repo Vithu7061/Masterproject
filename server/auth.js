@@ -35,6 +35,27 @@ function checkFileType(file, cb) {
     }
 }
 
+router.post('/subscriptionupdate', async (req, res) => {
+    try {
+        const { subscriptionType, userMail } = req.body;
+        // Aktualisiere die Subscription-Daten in der company_details Tabelle
+        const dbResult = await db.query(
+            `UPDATE company_details SET subscription_type = $1 WHERE user_id = (SELECT id FROM users WHERE email = $2)`,
+            [subscriptionType, userMail]
+        );
+
+        res.status(200).send({ message: 'Subscription updated successfully' });
+        console.log('successful subscription type:' + subscriptionType + ' userMail:' + userMail);
+    } catch (error) {
+        console.error('Subscription update error:', error);
+        if (!res.headersSent) {
+            res.status(500).send({ error: 'Subscription update failed' });
+        }
+    }
+});
+  
+
+
 // Register endpoint
 router.post('/register', async (req, res) => {
     try {
@@ -163,6 +184,27 @@ router.post('/upload-company-logo', upload.single('image'), async (req, res) => 
         console.error('Full error:', error.stack);
         res.status(500).json({ error: 'Failed to upload logo' });
     }
+});
+
+// Neue Route, um die userId basierend auf der E-Mail abzurufen
+router.get('/userid', async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const result = await db.query(
+      'SELECT id FROM users WHERE email = $1',
+      [email]
+    );
+
+    if (result.rows.length > 0) {
+      res.status(200).send({ userId: result.rows[0].id });
+    } else {
+      res.status(404).send({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching userId:', error);
+    res.status(500).send({ error: 'Database query failed' });
+  }
 });
 
 module.exports = router; 

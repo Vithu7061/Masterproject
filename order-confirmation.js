@@ -55,8 +55,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             alert(`Order confirmed! Quantity: ${quantity}. You will receive a confirmation email shortly.`);
+            const to = data.email;
+            const subject = 'Sociebite Order';
+            const text = `<h1>Your Order Details</h1>
+            <h2>${quantity}<h2>`;
+            const mailResponse = await fetch('http://localhost:3000/api/mailer/send-order-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ to , subject, text })
+            });
+
+            const productName = productData.name;
+            const priceInCents = productData.price * 100;
+            const stripeResponse = await fetch('http://localhost:3000/api/stripe/create-custompayment-link', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productName, priceInCents, quantity })
+            });
+
+            if (!stripeResponse.ok) {
+             //   const errorData = await stripeResponse.json();
+                throw new Error(errorData.error || 'Stripe subscription creation failed');
+            }
+
+            const stripeData = await stripeResponse.json();
+            console.log('Stripe subscription created:', stripeData.url);
+            window.location.href = stripeData.url;
+
+
             localStorage.removeItem('selectedProduct');
-            window.location.href = 'index.html';
+
+
+
+           // window.location.href = 'index.html';
         } catch (error) {
             console.error('Error purchasing product:', error);
             alert('Failed to purchase product. Please try again.');
