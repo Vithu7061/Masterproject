@@ -24,7 +24,7 @@
             <div class="account-tabs">
                 <button class="tab-button active" data-tab="personal">Personal Data</button>
                 <button class="tab-button" data-tab="purchased">Purchased Products</button>
-                <button class="tab-button" data-tab="listed">Listed Products</button>
+                <button class="tab-button" data-tab="listed" id="listedbtn">Listed Products</button>
             </div>
 
             <div class="account-content">
@@ -51,7 +51,7 @@
                         </div>
                         <div class="info-group">
                             <label>Name:</label>
-                            <span id="userName">John Doe</span>
+                            <input type="text" id="editUserName" class="edit-input" value="John Doe">
                         </div>
                         <div class="info-group">
                             <label>Email:</label>
@@ -61,7 +61,10 @@
                             <label>Account Type:</label>
                             <span id="accountType">Private Account</span>
                         </div>
+                    </div>
+                    <div style="max-width: 600px; margin: 0 auto;">
                         <button class="edit-button">Edit Information</button>
+                        <button class="save-button" id="savebtn">Save Changes</button>
                     </div>
                 </div>
 

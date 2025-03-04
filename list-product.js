@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+
     const form = document.getElementById('listProductForm');
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             description: document.getElementById('productDescription').value,
             price: document.getElementById('productPrice').value,
             quantity: document.getElementById('productQuantity').value,
+            fullquantity: document.getElementById('productQuantity').value,
             availableFrom: document.getElementById('availableFrom').value,
             availableUntil: document.getElementById('availableUntil').value,
             sellerEmail: loggedInUser,
@@ -22,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         //
-        console.log('--------------' + productData.imageUrl);
         if(productData.imageUrl!==null){
             document.getElementById('productImage').files[0];
 

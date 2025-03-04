@@ -17,13 +17,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         const userData = await response.json();
 
         // Update UI with user data
+        document.getElementById("savebtn").style.visibility = "hidden";
+        document.getElementById("listedbtn").style.visibility = "hidden";
+
         document.querySelector('.user-email').textContent = userData.email;
-        document.getElementById('userName').textContent = userData.name;
+        document.getElementById("editUserName").disabled = true; 
+        document.getElementById('editUserName').value = userData.name;
         document.getElementById('userEmail').textContent = userData.email;
         document.getElementById('accountType').textContent = userData.account_type === 'company' ? 'Company Account' : 'Private Account';
 
         // If it's a company account, show company details and image upload
         if (userData.account_type === 'company') {
+            document.getElementById("listedbtn").style.visibility = "visible";
             document.getElementById('companyImageSection').style.display = 'block';
             if (userData.companyDetails?.logo_url) {
                 document.getElementById('companyLogo').src = userData.companyDetails.logo_url;
@@ -33,15 +38,35 @@ document.addEventListener('DOMContentLoaded', async () => {
             companySection.innerHTML = `
                 <div class="info-group">
                     <label>Company Name:</label>
-                    <span>${userData.companyDetails.company_name}</span>
+                    <input type="text" id="editCompanyName" class="edit-input" value="Example Company">
                 </div>
                 <div class="info-group">
-                    <label>Address:</label>
-                    <span>${userData.companyDetails.street}, ${userData.companyDetails.postal_code} ${userData.companyDetails.city}</span>
+                    <label>Street:</label>
+                    <input type="text" id="editStreet" class="edit-input" value="Example Street">
+                </div>
+                <div class="info-group">
+                    <label>Postal code:</label>
+                    <input type="text" id="editPostalCode" class="edit-input" value="Example Postal code">
+                </div>
+                <div class="info-group">
+                    <label>City:</label>
+                    <input type="text" id="editCity" class="edit-input" value="Example City">
                 </div>
             `;
             document.querySelector('.data-section').appendChild(companySection);
+            document.getElementById("editCompanyName").disabled = true; 
+            document.getElementById("editStreet").disabled = true; 
+            document.getElementById("editPostalCode").disabled = true; 
+            document.getElementById("editCity").disabled = true; 
+
+            document.getElementById('editCompanyName').value = userData.companyDetails.company_name;
+            document.getElementById('editStreet').value = userData.companyDetails.street;
+            document.getElementById('editPostalCode').value = userData.companyDetails.postal_code;
+            document.getElementById('editCity').value = userData.companyDetails.city;
+
         }
+
+
 
         // Image Upload Handler
         const imageUpload = document.getElementById('imageUpload');
@@ -131,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 Available: ${new Date(product.available_from).toLocaleDateString()} - 
                                 ${new Date(product.available_until).toLocaleDateString()}
                             </p>
-                            <p class="quantity">Quantity: ${product.quantity}</p>
+                            <p class="quantity">Quantity: ${product.fullquantity}</p>
                             <div class="product-actions">
                                 <button class="edit-product" data-id="${product.id}">Edit</button>
                                 <button class="delete-product" data-id="${product.id}">Delete</button>
@@ -173,8 +198,90 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Edit button functionality
-    document.querySelector('.edit-button').addEventListener('click', () => {
-        alert('Edit functionality will be implemented here');
+    const editButton = document.querySelector('.edit-button');
+    const saveButton = document.querySelector('.save-button');
+
+    editButton.addEventListener('click', () => {
+        if(userData.account_type === 'company'){
+            if(document.getElementById("editUserName").disabled===true){
+                document.getElementById("editUserName").disabled = false; 
+                document.getElementById("editCompanyName").disabled = false; 
+                document.getElementById("editStreet").disabled = false; 
+                document.getElementById("editPostalCode").disabled = false; 
+                document.getElementById("editCity").disabled = false; 
+                document.getElementById("savebtn").style.visibility = "visible";
+            }
+            else{
+                document.getElementById("editUserName").disabled = true; 
+                document.getElementById("editCompanyName").disabled = true; 
+                document.getElementById("editStreet").disabled = true; 
+                document.getElementById("editPostalCode").disabled = true; 
+                document.getElementById("editCity").disabled = true; 
+                document.getElementById("savebtn").style.visibility = "hidden";
+            }
+        }else{
+            if(document.getElementById("editUserName").disabled===true){
+                document.getElementById("editUserName").disabled = false; 
+                document.getElementById("savebtn").style.visibility = "visible";
+            }
+            else{
+                document.getElementById("editUserName").disabled = true; 
+                document.getElementById("savebtn").style.visibility = "hidden";
+            }
+        }
+    });
+
+    saveButton.addEventListener('click', async () => {
+        
+        const name = document.getElementById('editUserName').value;
+        const email =userData.email;
+        if(userData.account_type === 'company'){
+            const companyName = document.getElementById('editCompanyName').value;
+            const street= document.getElementById('editStreet').value;
+            const postalCode = document.getElementById('editPostalCode').value;
+            const city = document.getElementById('editCity').value;
+            console.log(name , companyName,street,postalCode,city,email);
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/update-user-details', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({name, email ,companyName, street, postalCode, city})
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update user details');
+                }
+
+                alert('Details updated successfully');
+                window.location.reload();
+            } catch (error) {
+                console.error('Error updating user details:', error);
+                alert('Failed to update details');
+            }
+        }else{
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/update-user-details-private', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({name, email})
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update user details');
+                }
+
+                alert('Details updated successfully');
+                window.location.reload();
+            } catch (error) {
+                console.error('Error updating user details:', error);
+                alert('Failed to update details');
+            } 
+        }
     });
 
     // Fetch purchased products

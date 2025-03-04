@@ -91,10 +91,16 @@
             // List Products Link Handler
             listProductLink.addEventListener('click', (e) => {
                 e.preventDefault();
+                const data = JSON.parse(localStorage.getItem('userData'));
+                console.log(data.account_type);
                 if (loggedInUser) {
-                    window.location.href = 'list-product.html';
+                    if(data.account_type==='company'){
+                        window.location.href = 'list-product.html';
+                    }else{
+                        alert('Please use a company account to list products!');
+                    }
                 } else {
-                    alert('Please log in to list products');
+                    alert('Please log in to list products!');
                 }
             });
         });

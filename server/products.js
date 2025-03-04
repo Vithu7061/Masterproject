@@ -92,7 +92,7 @@ router.post('/', async (req, res) => {
     try {
         console.log('Received product data:', req.body);
         const { 
-            name, description, price, quantity, availableFrom, availableUntil,
+            name, description, price, quantity, fullquantity,availableFrom, availableUntil,
             imageUrl 
         } = req.body;
         
@@ -114,13 +114,13 @@ router.post('/', async (req, res) => {
         const result = await db.query(
             `INSERT INTO products (
                 seller_id, name, description, price, 
-                quantity, available_from, 
+                quantity, fullquantity,available_from, 
                 available_until, image_url
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
             RETURNING *`,
             [
                 userResult.rows[0].id, name, description, 
-                price, quantity, availableFrom, 
+                price, quantity,fullquantity, availableFrom, 
                 availableUntil, imageUrl
             ]
         );

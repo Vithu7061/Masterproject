@@ -57,8 +57,28 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(`Order confirmed! Quantity: ${quantity}. You will receive a confirmation email shortly.`);
             const to = data.email;
             const subject = 'Sociebite Order';
-            const text = `<h1>Your Order Details</h1>
-            <h2>${quantity}<h2>`;
+            const total = productData.price*quantity;
+            const text = `
+            <div style="color: #333;margin-bottom: 2rem; text-align: center;">
+            <h1>Order Summary</h1>
+            <div class="product-details">
+                        <h2 class="productname" id="productName" style="color: #37B24D;margin-bottom: 0.5rem; margin-top: 0.5rem;">${productData.name}</h2>
+                        <p class="company" id="companyName" style="color: #666; margin-bottom: 0.5rem;">${productData.company_name}</p>
+                        <h3 class="price2" id="productPrice" style="color: #37B24D;margin-bottom: 0.5rem; margin-top: 0.5rem;">${productData.price}€</h3>
+            </div>
+            <div class="pickup-info" style="    margin: 2rem 0;padding: 1.5rem;background: #f8f9fa;border-radius: 8px;">
+                <h3 style="color: #333;margin-bottom: 1rem;">Pickup Information</h3>
+                <p id="pickupLocation" style="color: #666; margin-bottom: 0.5rem;" >Location: ${productData.street}, ${productData.postal_code} ${productData.city}</p>
+                <p id="pickupTime" style="    color: #666; margin-bottom: 0.5rem;" >Available for pickup: ${new Date(productData.available_from).toLocaleString()} - ${new Date(productData.available_until).toLocaleString()}</p>
+            </div>
+             <p class="description" id="productDescription">${productData.description}</p>
+             <div class="quantityclass">
+                <label for="quantity">Quantity: ${quantity}</label>
+                <h3 class="price2" id="productPrice">${total}€</h3>
+            </div>
+            </div>
+            `;
+            
             const mailResponse = await fetch('http://localhost:3000/api/mailer/send-order-email', {
                 method: 'POST',
                 headers: {

@@ -24,7 +24,7 @@ router.post('/send-order-email', async (req, res) => {
     from: 'noreply@sociebite.com',
     to: to,
     subject: subject,
-    text: text
+    html: text
   };
 
   try {

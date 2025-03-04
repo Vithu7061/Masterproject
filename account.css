@@ -98,10 +98,34 @@
     width: 120px;
     color: #666;
     font-weight: bold;
+    font-size: 18px; /* Größere Schrift */
+
 }
 
 .info-group span {
     color: #333;
+}
+
+.edit-input{
+    font-size: 18px; /* Größere Schrift */
+    border: none; /* Kein Rand */
+    outline: none;
+}
+
+.save-button {
+    background: #37B24D;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.save-button:hover {
+    background: #2f9641;
 }
 
 .edit-button {

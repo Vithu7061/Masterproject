@@ -207,4 +207,45 @@ router.get('/userid', async (req, res) => {
   }
 });
 
+router.post('/update-user-details', async (req, res) => {
+    try {
+        const { name, email ,companyName, street, postalCode, city } = req.body;
+        // Aktualisiere die Benutzerdaten
+        await db.query(
+            'UPDATE users SET name = $1 WHERE email = $2',
+            [name, email]
+        );
+
+        // Aktualisiere die Firmendetails, falls vorhanden
+        await db.query(
+            `UPDATE company_details 
+             SET company_name = $1, street = $2, postal_code = $3, city = $4 
+             WHERE user_id = (SELECT id FROM users WHERE email = $5)`,
+            [companyName, street, postalCode, city, email]
+        );
+
+        res.status(200).send({ message: 'User details updated successfully' });
+    } catch (error) {
+        console.error('Error updating user details:', error);
+        res.status(500).send({ error: 'Failed to update user details' });
+    }
+});
+
+
+router.post('/update-user-details-private', async (req, res) => {
+    try {
+        const { name, email} = req.body;
+        // Aktualisiere die Benutzerdaten
+        await db.query(
+            'UPDATE users SET name = $1 WHERE email = $2',
+            [name, email]
+        );
+        res.status(200).send({ message: 'User details updated successfully' });
+    } catch (error) {
+        console.error('Error updating user details:', error);
+        res.status(500).send({ error: 'Failed to update user details' });
+    }
+});
+
+
 module.exports = router; 

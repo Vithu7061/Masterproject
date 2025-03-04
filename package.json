@@ -4,7 +4,8 @@
 	"main": "server/server.js",
 	"scripts": {
 		"start": "node server/server.js",
-		"build": "npx concurrently \"npx nodemon server.js\" \"npx http-server . -p 8081\" \"npx open-cli http://localhost:8081/landing.html\""
+		"build": "npx concurrently \"npx nodemon server.js\" \"npx http-server . -p 8081\" \"npx open-cli http://localhost:8081/landing.html\"",
+		"dev": "npx concurrently \"npx nodemon server.js\" \"npx http-server . -p 8081\" \"npx open-cli http://localhost:8081/landing.html\""
 	},
 	"dependencies": {
 		"axios": "^1.8.1",

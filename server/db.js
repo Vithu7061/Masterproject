@@ -1,18 +1,10 @@
 const { Pool } = require('pg');
-/*
-const pool = new Pool({
-    user: 'postgres',
-    host: 'db.woswkhvlmzehmfmfzduv.supabase.co',
-    database: 'postgres',
-    password: 'sociebite',
-    port: 5432,
-});
-*/
+
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'Sociebitedb',
-    password: 'Veam1618!?',
+    password: 'MasterPW',
     port: 5432,
 });
 
@@ -60,6 +52,7 @@ const createTables = async () => {
                 description TEXT,
                 price DECIMAL(10,2) NOT NULL,
                 quantity INTEGER NOT NULL,
+                fullquantity INTEGER NOT NULL,
                 available_from TIMESTAMP,
                 available_until TIMESTAMP,
                 image_url VARCHAR(255),
@@ -75,7 +68,7 @@ const createTables = async () => {
             );
         `);
         console.log('Database tables created successfully');
-
+/*
         // Check if products table is empty
         const productsCount = await pool.query('SELECT COUNT(*) FROM products');
         if (productsCount.rows[0].count === '0') {
@@ -86,22 +79,22 @@ const createTables = async () => {
                 await pool.query(`
                     INSERT INTO products (
                         seller_id, name, description, price, 
-                        quantity, available_from, 
+                        quantity,fullquantity, available_from, 
                         available_until
                     ) VALUES 
                     ($1, 'Sushi Box', 'Frische Sushi Box mit verschiedenen Rolls', 22.90, 
-                        5, NOW(), NOW() + INTERVAL '2 days'),
+                        5, 5,NOW(), NOW() + INTERVAL '2 days'),
                     ($1, 'Klassische italienische Pizza', 8.99,
-                        3, NOW(), NOW() + INTERVAL '1 day'),
+                        3,3, NOW(), NOW() + INTERVAL '1 day'),
                     ($1, 'Gemüse Box', 'Frisches Bio-Gemüse Mix', 15.50,
-                        10, NOW(), NOW() + INTERVAL '3 days'),
+                        10, 10,NOW(), NOW() + INTERVAL '3 days'),
                     ($1, 'Pasta Box', 'Hausgemachte Pasta mit Sauce', 12.90,
-                        8, NOW(), NOW() + INTERVAL '1 day')
+                        8,8, NOW(), NOW() + INTERVAL '1 day')
                 `, [userResult.rows[0].id]);
                 console.log('Sample products added');
             }
         }
-
+*/
         // Füge logo_url Spalte hinzu, falls sie nicht existiert
         await pool.query(`
             DO $$ 
