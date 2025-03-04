@@ -86,7 +86,7 @@ main {
     border: 2px solid #eee;
     border-radius: 4px;
     font-size: 1rem;
-    width: 20vw;
+    max-width: 20vw;
 }
 
 .search-button {
