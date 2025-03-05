@@ -108,6 +108,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                 
+                
+                const to = userData.email;
+                const subject = 'Sociebite Registration';
+                const text = `
+                <div style="color: #333;margin-bottom: 2rem; text-align: center;">
+                <h1>Thank you!</h1>
+                <div class="pickup-info" style="    margin: 2rem 0;padding: 1.5rem;background: #f8f9fa;border-radius: 8px;">
+                    <p id="pickupLocation" style="color: #666; margin-bottom: 0.5rem;" >Hi ${userData.name},</p>
+                    <p id="pickupLocation" style="color: #666; margin-bottom: 0.5rem;" >thank you for joining the Sociebite community. You can now start saving the enviroment by listing and buying Food on our Plattform!</p>
+                </div>
+                </div>
+                `;
+                
+                const mailResponse = await fetch('http://localhost:3000/api/mailer/send-order-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ to , subject, text })
+                });
 
                 localStorage.setItem('SubMail', email);
 

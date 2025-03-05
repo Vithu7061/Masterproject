@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ subscriptionType, userMail })
                 });
 
+
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.error || 'Subscription update failed');
